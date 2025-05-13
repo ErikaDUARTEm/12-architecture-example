@@ -26,7 +26,7 @@
       </thead>
       <tbody role="rowgroup">
 
-        @for(orden of getAllOrdenes().content ; track orden.id){
+        @for(orden of getAllOrdenes()?.content ; track orden.id){
         <tr role="row">
           <td>{{ orden.id }}</td>
           <td>{{ orden.priceTotal | currency}}</td>

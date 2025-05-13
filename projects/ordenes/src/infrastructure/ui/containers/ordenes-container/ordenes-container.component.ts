@@ -43,7 +43,7 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     this._deleteOrdenUseCase.initSubscriptions();
     this._updateStatusOrdenUseCase.initSubscriptions();
     this.statusOrden$ = this._updateStatusOrdenUseCase.statusOrden$();
-    this.getAllOrdens$ = this._getUseCase.getAllordenes$();
+    this.getAllOrdens$ = this.ordenState.store().getAllOrdenes.$();
     this.handleGetAllOrdens(this.ordenState.store().currentPage.snapshot(), 5);
   }
   handlePatchOrden({

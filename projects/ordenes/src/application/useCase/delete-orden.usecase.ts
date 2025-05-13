@@ -28,21 +28,28 @@ export class DeleteOrdenUsecase {
   }
 
   execute(id: number): void {
-    this.subscriptions.add(
-      this._service
-        .deleteOrderById(id)
-        .pipe(
-          tap(() => {
-            const currentOrden = this._state.ordenes.ordenes.snapshot();
-            const updatedOrdenes = currentOrden.filter(
-              (orden) => orden.id !== id
-            );
-            this._state.ordenes.ordenes.set(updatedOrdenes);
-          })
-        )
-        .subscribe()
-    );
-  }
+  this.subscriptions.add(
+    this._service.deleteOrderById(id).pipe(
+      tap(() => {
+        console.log("📌 Orden eliminada en backend:", id);
+
+        // ✅ Obtiene el estado actual de `getAllOrdenes`
+        const currentState = this._state.ordenes.getAllOrdenes.snapshot();
+
+        // ✅ Filtra la orden eliminada para que no aparezca más en la lista
+        const updatedOrders = currentState.content.filter(orden => orden.id !== id);
+
+        // ✅ Actualiza `getAllOrdenes` en el estado global
+        this._state.ordenes.getAllOrdenes.set({
+          ...currentState,
+          content: updatedOrders,
+        });
+
+        console.log("📌 Estado actualizado tras eliminación:", this._state.ordenes.getAllOrdenes.snapshot());
+      })
+    ).subscribe()
+  );
+}
   selectOrden(id: number): void {
     const currentOrden = this._state.ordenes.ordenes
       .snapshot()
