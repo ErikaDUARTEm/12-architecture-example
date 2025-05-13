@@ -85,12 +85,11 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     this._getUseCase.execute(page, size);
   }
 
- changePage(increment: number): void {
+  changePage(increment: number): void {
   const newPage = this.ordenState.store().currentPage.snapshot() + increment;
 
   if (newPage >= 0 && newPage < this.ordenState.store().totalPages.snapshot()) {
-    this.ordenState.store().currentPage.set(newPage); 
-    console.log("📌 Cambiando a página:", newPage);
+    this.ordenState.store().currentPage.set(newPage);
     this.handleGetAllOrdens(newPage, 5);
   }
 }
