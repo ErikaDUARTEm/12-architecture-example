@@ -8,9 +8,15 @@ export const ordenesRoutes: Routes = [
     component: OrdenesLayoutComponent,
     children: [
       {
-        path: '',
+        path: ':page/:size',
         component: OrdenesContainerComponent,
       },
+      {
+        path: '',
+        redirectTo: '0/5',
+        pathMatch: 'full',
+      },
+
     ],
   },
 ];

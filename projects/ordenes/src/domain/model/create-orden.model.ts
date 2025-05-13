@@ -7,6 +7,13 @@ export interface ICreateOrden {
   isFrecuent?: boolean,
   items: Item[]
 }
+export interface IPagedOrders {
+  content: ICreateOrden[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+  size: number;
+  }
 
 export interface Item {
   id?: number;

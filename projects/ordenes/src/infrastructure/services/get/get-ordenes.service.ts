@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { urlResources } from 'shared';
-import { ICreateOrden } from '../../../domain/model/create-orden.model';
+import { IPagedOrders } from '../../../domain/model/create-orden.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,8 @@ import { ICreateOrden } from '../../../domain/model/create-orden.model';
 export class GetOrdenesService {
   private http = inject(HttpClient);
 
-  execute(): Observable<ICreateOrden[]> {
-    return this.http.get<ICreateOrden[]>(urlResources.ordenes);
+  execute(page: number = 0, size: number = 5): Observable<IPagedOrders> {
+        return this.http.get<IPagedOrders>(urlResources.getOrdenes(page, size));
   }
+
 }

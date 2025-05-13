@@ -4,7 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ModalComponent } from 'shared';
 import { AddOrdenFormComponent } from '../../forms/add-orden-form/add-orden-form.component';
 import { OrdenState } from '../../../../domain/state/orden.state';
-import { ICreateOrden } from '../../../../domain/model/create-orden.model';
+import { ICreateOrden, IPagedOrders } from '../../../../domain/model/create-orden.model';
 
 @Component({
   selector: 'lib-get-ordenes',
@@ -29,6 +29,11 @@ export class GetOrdenesComponent {
   }>();
   public onDeleteOrden = output<number>();
   public onStatusChange = output<ICreateOrden>();
+  public getAllOrdenes = input<IPagedOrders>();
+  public currentpage = input<number>();
+  public totalPages = input<number>();
+  public onChangePage = output<number>();
+
 
   message(): string {
     return this.ordenState.store().successMessage.snapshot();
@@ -42,7 +47,6 @@ export class GetOrdenesComponent {
     ['DELIVERED', 'ordenes__btn-delivered'],
   ]);
   getButtonClass(status: string): string {
-    console.log('getButton', status);
     return this.statusClassMap.get(status) || '';
   }
 
@@ -60,4 +64,8 @@ export class GetOrdenesComponent {
   statusChange(orden: ICreateOrden) {
     this.onStatusChange.emit(orden);
   }
+  emitChangePage(increment: number) {
+    this.onChangePage.emit(increment);
+  }
+
 }

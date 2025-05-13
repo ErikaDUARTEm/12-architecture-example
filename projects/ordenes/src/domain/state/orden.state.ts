@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { StateFactory } from 'shared';
 import { BehaviorSubject } from 'rxjs';
-import { ICreateOrden } from '../model/create-orden.model';
+import { ICreateOrden, IPagedOrders } from '../model/create-orden.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,17 @@ export class OrdenState {
   private readonly currentOrdenes$ = new BehaviorSubject<ICreateOrden>(null);
   private readonly successMessage$ = new BehaviorSubject<string | null>(null);
   private readonly statusOrden$ = new BehaviorSubject<string>(null);
+  private readonly getAllOrdenes$ =  new BehaviorSubject<IPagedOrders>(
+    {content: [],
+    totalElements: 0,
+    size: 5,
+    number: 0,
+    totalPages: 0,
+
+});
+  private readonly currentPage$ = new BehaviorSubject<number>(0);
+  private readonly totalPages$ = new BehaviorSubject<number>(1);
+
 
   //#endregion
 
@@ -23,6 +34,9 @@ export class OrdenState {
       currentOrdenes: this._factory.state(this.currentOrdenes$),
       successMessage: this._factory.state(this.successMessage$),
       statusOrden: this._factory.state(this.statusOrden$),
+      getAllOrdenes: this._factory.state(this.getAllOrdenes$),
+      currentPage: this._factory.state(this.currentPage$),
+      totalPages: this._factory.state(this.totalPages$)
     };
   }
   setSuccessMessage(message: string | null) {

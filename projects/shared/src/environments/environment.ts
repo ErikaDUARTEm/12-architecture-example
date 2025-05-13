@@ -10,7 +10,7 @@ export const urlResources = {
   clientsOperationsById: (clientId: string) => `${environment.apiUrl}/cliente/${clientId}`,
   restautantOperationsById: (restaurantId: string) => `${environment.apiUrl}/restaurante/${restaurantId}`,
   ordenesOperationsById: (ordenId: string) => `${environment.apiUrl}/ordenes/${ordenId}`,
-  dishesOperationsById: (dishId: string) => `${environment.apiUrl}/dish/${dishId}`
-
+  dishesOperationsById: (dishId: string) => `${environment.apiUrl}/dish/${dishId}`,
+  getOrdenes: (page: number, size: number) => `${environment.apiUrl}/ordenes?page=${page}&size=${size}`
 
 }
