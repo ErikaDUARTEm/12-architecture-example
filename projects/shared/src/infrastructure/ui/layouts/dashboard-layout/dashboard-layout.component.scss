@@ -3,26 +3,25 @@
 
 .dashboard {
   width: 100%;
-  height: 100%;
   box-sizing: border-box;
+  min-height: 100vh;
   display: grid;
-  grid-template-columns: 10% 90%;
-  grid-template-rows: 100%;
+  align-items: start;
+  grid-template-columns: 15% 85%;
 
   &__sidebar {
-    width: 100%;
-    height: 100dvh;
+    min-height: 100vh;
     grid-column: 1/2;
-    background-color: variables.$color-secondary;
   }
   &__content {
     width: 100%;
-    height: 100%;
+    height: auto;
     box-sizing: border-box;
     padding: 10px;
   }
   &__main {
     width: 100%;
-    height: 80dvh;
+    height: auto;
+    min-height: 80dvh;
   }
 }
