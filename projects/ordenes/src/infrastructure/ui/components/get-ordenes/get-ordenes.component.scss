@@ -109,4 +109,55 @@
       }
     }
   }
+  &__pagination{
+  &__button {
+    color: variables.$color-background; // Texto blanco en los botones
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: variables.$font-weight-secondary;
+    transition: background-color 0.3s ease;
+
+    // Estilo común para todos los botones
+    &:hover {
+      background: variables.$color-secondary; // Rosado en hover
+    }
+    &:disabled {
+      background-color: #ccc; // Fondo gris cuando está deshabilitado
+      color: #aaa; // Texto gris cuando está deshabilitado
+      cursor: not-allowed;
+    }
+  }
+
+  &__button--previous {
+    background: variables.$color-background-button;
+    border: none;
+
+    &:hover {
+      background: variables.$color-secondary;
+    }
+    &:active {
+     background: variables.$color-background-button;
+    }
+  }
+
+  &__button--next{
+    background: variables.$color-background-button;
+    border: none;
+
+    &:hover {
+      background: variables.$color-secondary;
+    }
+    &:active {
+      background: variables.$color-secondary;
+    }
+  }
+
+  &__text {
+    color: variables.$color-secondary;
+    margin: 0 10px;
+    font-weight: variables.$font-weight-secondary;
+  }
+  }
 }

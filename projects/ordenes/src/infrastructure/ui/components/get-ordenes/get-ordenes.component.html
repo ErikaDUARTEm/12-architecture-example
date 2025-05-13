@@ -25,7 +25,6 @@
         </tr>
       </thead>
       <tbody role="rowgroup">
-
         @for(orden of getAllOrdenes()?.content ; track orden.id){
         <tr role="row">
           <td>{{ orden.id }}</td>
@@ -33,7 +32,6 @@
           <td>
             <button type="button" [class]="getButtonClass(orden.statusOrder)" (click)="statusChange(orden)">
               {{ orden.statusOrder }}
-
             </button>
           </td>
           <td>{{ orden.client.name }}</td>
@@ -58,9 +56,9 @@
       </tbody>
     </table>
     <div class="ordenes__pagination">
-      <button (click)="emitChangePage(-1)" [disabled]="currentpage() === 0">Anterior</button>
-      <span>Página {{ currentpage() + 1 }} de {{ totalPages() }}</span>
-      <button (click)="emitChangePage(1)"
+      <button class="ordenes__pagination__button ordenes__pagination__button--previous" (click)="emitChangePage(-1)" [disabled]="currentpage() === 0">Anterior</button>
+      <span class="ordenes__pagination__text">Página {{ currentpage() + 1 }} de {{ totalPages() }}</span>
+      <button class="ordenes__pagination__button ordenes__pagination__button--next" (click)="emitChangePage(1)"
         [disabled]="currentpage() >= totalPages() - 1">Siguiente</button>
     </div>
   </section>
