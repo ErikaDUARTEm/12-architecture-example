@@ -1,8 +1,13 @@
 <aside class="sidebar" role="complementary" aria-labelledby="sidebarTitle">
-  <h2 id="sidebarTitle" class="visually-hidden">Navegación Lateral</h2>
-  <img src="https://raw.githubusercontent.com/ErikaDUARTEm/11-angular-routing/refs/heads/development/public/logo.jpeg"
-    alt="Imagen de logo del restaurante" class="sidebar__logo">
-  <button [routerLink]="['/']" class="sidebar__button" aria-label="Ir al Dashboard">Dashboard</button>
+  <div class="sidebar__container-image">
+    <h2 id="sidebarTitle" class="visually-hidden">Navegación Lateral</h2>
+    <img src="https://raw.githubusercontent.com/ErikaDUARTEm/11-angular-routing/refs/heads/development/public/logo.jpeg"
+      alt="Imagen de logo del restaurante" class="sidebar__logo">
+  </div>
+  <div class="sidebar__container-button">
+    <button [routerLink]="['/']" class="sidebar__button sidebar__button--active"
+      aria-label="Ir al Dashboard">Dashboard</button>
+  </div>
   <nav class="sidebar__nav" role="navigation" aria-labelledby="navTitle">
     <h3 id="navTitle" class="visually-hidden">Menú de Navegación</h3>
     <ul class="sidebar__list">
