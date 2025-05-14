@@ -1,14 +1,11 @@
 @use "../../styles/variables.scss" as variables;
 @use "../../styles/mixin.scss" as mixin;
 
-.ordenes{
-  @include mixin.container(space-evenly);
-    width: 80dvw;
-    align-items: flex-end;
-    flex-direction: column;
-    padding: 20px;
-
-  &__mensaje-exito{
+.ordenes {
+  width: 80dvw;
+  flex-direction: column;
+  padding: 20px;
+  &__mensaje-exito {
     color: variables.$color-background-button;
     font-size: 1.4rem;
     font-weight: bold;
@@ -29,7 +26,6 @@
     border-collapse: collapse;
     background-color: variables.$color-background;
     font-family: variables.$font-family-secondary;
-
     th,
     td {
       border: 1px solid variables.$color-gradients;
@@ -109,55 +105,53 @@
       }
     }
   }
-  &__pagination{
-  &__button {
-    color: variables.$color-background; // Texto blanco en los botones
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: variables.$font-weight-secondary;
-    transition: background-color 0.3s ease;
-
-    // Estilo común para todos los botones
-    &:hover {
-      background: variables.$color-secondary; // Rosado en hover
+  &__pagination {
+    &__button {
+      color: variables.$color-background;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: variables.$font-weight-secondary;
+      transition: background-color 0.3s ease;
+      &:hover {
+        background: variables.$color-secondary;
+      }
+      &:disabled {
+        background-color: #ccc;
+        color: #aaa;
+        cursor: not-allowed;
+      }
     }
-    &:disabled {
-      background-color: #ccc; // Fondo gris cuando está deshabilitado
-      color: #aaa; // Texto gris cuando está deshabilitado
-      cursor: not-allowed;
-    }
-  }
 
-  &__button--previous {
-    background: variables.$color-background-button;
-    border: none;
+    &__button--previous {
+      background: variables.$color-background-button;
+      border: none;
 
-    &:hover {
-      background: variables.$color-secondary;
+      &:hover {
+        background: variables.$color-secondary;
+      }
+      &:active {
+        background: variables.$color-background-button;
+      }
     }
-    &:active {
-     background: variables.$color-background-button;
-    }
-  }
 
-  &__button--next{
-    background: variables.$color-background-button;
-    border: none;
+    &__button--next {
+      background: variables.$color-background-button;
+      border: none;
 
-    &:hover {
-      background: variables.$color-secondary;
+      &:hover {
+        background: variables.$color-secondary;
+      }
+      &:active {
+        background: variables.$color-secondary;
+      }
     }
-    &:active {
-      background: variables.$color-secondary;
-    }
-  }
 
-  &__text {
-    color: variables.$color-secondary;
-    margin: 0 10px;
-    font-weight: variables.$font-weight-secondary;
-  }
+    &__text {
+      color: variables.$color-secondary;
+      margin: 0 10px;
+      font-weight: variables.$font-weight-secondary;
+    }
   }
 }
