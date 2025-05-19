@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { State } from '../../domain/state';
-import { Observable, Subscription, tap } from 'rxjs';
+import { combineLatest, map, Observable, Subscription, tap } from 'rxjs';
 import { GetOrdenesService } from '../../infrastructure/services/get/get-ordenes.service';
 import {
   ICreateOrden,
@@ -25,6 +25,15 @@ export class GetOrdenesUsecase {
   currentPage$(): Observable<number>{
     return this._state.ordenes.currentPage.$();
   }
+  ordenesCombinadas$(): Observable<IPagedOrders> {
+    return combineLatest([this.getAllordenes$(), this.ordenes$()]).pipe(
+      map(([paginadas, creadas]) => ({
+        ...paginadas,
+        content: [...paginadas.content, ...creadas]
+      }))
+    );
+  }
+
   //#endregion
 
   //#region Public Methods
@@ -42,28 +51,16 @@ export class GetOrdenesUsecase {
         .execute(page, size)
         .pipe(
           tap((ordenes) => {
-           console.log("📌 Órdenes recibidas:", ordenes.content);
-        console.log("📌 Página actual desde backend:", ordenes.number);
-        console.log("📌 Total páginas:", ordenes.totalPages);
-
-        // ✅ Actualiza `currentPage` y `totalPages` por separado en el estado
-        this._state.ordenes.currentPage.set(ordenes.number ?? 0);
+        this._state.ordenes.currentPage.set(ordenes.pageNumber ?? 0);
         this._state.ordenes.totalPages.set(ordenes.totalPages ?? Math.ceil(ordenes.totalElements / size));
-
         this._state.ordenes.getAllOrdenes.set({
           content: ordenes.content ?? [],
           totalElements: ordenes.totalElements ?? ordenes.content.length ?? 0,
           size: ordenes.size ?? size,
-          number: ordenes.number ?? 0, // No actualizar `number` con `set()`, ya lo estamos haciendo arriba
-          totalPages: ordenes.totalPages ?? Math.ceil(ordenes.totalElements / size) // No usar `set()` aquí
+          pageNumber: ordenes.pageNumber ?? 0,
+          totalPages: ordenes.totalPages ?? Math.ceil(ordenes.totalElements / size)
         });
-
-        console.log("📌 Estado actualizado:");
-        console.log("➡ Página actual:", this._state.ordenes.currentPage.snapshot());
-        console.log("➡ Total páginas:", this._state.ordenes.totalPages.snapshot());
-        console.log("➡ Órdenes guardadas:", this._state.ordenes.getAllOrdenes.snapshot());
       })
-
         )
         .subscribe()
     );

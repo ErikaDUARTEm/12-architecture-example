@@ -5,3 +5,10 @@ export interface IClient {
   numberPhone: string;
   isFrecuent?: boolean;
 }
+export interface IPagedClients {
+  content: IClient[];
+  totalPages: number;
+  totalElements: number;
+  pageNumber: number;
+  size: number;
+  }

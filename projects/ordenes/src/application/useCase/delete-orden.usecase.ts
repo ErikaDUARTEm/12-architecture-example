@@ -28,33 +28,40 @@ export class DeleteOrdenUsecase {
   }
 
   execute(id: number): void {
-  this.subscriptions.add(
-    this._service.deleteOrderById(id).pipe(
-      tap(() => {
-        console.log("📌 Orden eliminada en backend:", id);
+    this.subscriptions.add(
+      this._service
+        .deleteOrderById(id)
+        .pipe(
+          tap(() => {
+            console.log('📌 Orden eliminada en backend:', id);
 
-        // ✅ Obtiene el estado actual de `getAllOrdenes`
-        const currentState = this._state.ordenes.getAllOrdenes.snapshot();
+            const currentState = this._state.ordenes.getAllOrdenes.snapshot();
 
-        // ✅ Filtra la orden eliminada para que no aparezca más en la lista
-        const updatedOrders = currentState.content.filter(orden => orden.id !== id);
-
-        // ✅ Actualiza `getAllOrdenes` en el estado global
-        this._state.ordenes.getAllOrdenes.set({
-          ...currentState,
-          content: updatedOrders,
-        });
-
-        console.log("📌 Estado actualizado tras eliminación:", this._state.ordenes.getAllOrdenes.snapshot());
-      })
-    ).subscribe()
-  );
-}
+            const updatedOrders = currentState.content.filter(
+              (orden) => orden.id !== id
+            );
+            this._state.ordenes.getAllOrdenes.set({
+              ...currentState,
+              content: updatedOrders,
+            });
+            const createdOrdersState = this._state.ordenes.ordenes.snapshot();
+            const updatedCreatedOrders = createdOrdersState.filter(
+              (orden) => orden.id !== id
+            );
+            this._state.ordenes.ordenes.set(updatedCreatedOrders);
+          })
+        )
+        .subscribe()
+    );
+  }
   selectOrden(id: number): void {
-    const currentOrden = this._state.ordenes.ordenes
-      .snapshot()
-      .find((ordenes) => ordenes.id === id);
+    const currentOrden = [
+      ...this._state.ordenes.ordenes.snapshot(),
+      ...this._state.ordenes.getAllOrdenes.snapshot().content,
+    ].find((orden) => orden.id === id);
+
     this._state.ordenes.currentOrdenes.set(currentOrden);
+    console.log('📌 Orden seleccionada:', currentOrden);
   }
   //#endregion
 

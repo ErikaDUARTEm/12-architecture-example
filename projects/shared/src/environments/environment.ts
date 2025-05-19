@@ -11,6 +11,6 @@ export const urlResources = {
   restautantOperationsById: (restaurantId: string) => `${environment.apiUrl}/restaurante/${restaurantId}`,
   ordenesOperationsById: (ordenId: string) => `${environment.apiUrl}/ordenes/${ordenId}`,
   dishesOperationsById: (dishId: string) => `${environment.apiUrl}/dish/${dishId}`,
-  getOrdenes: (page: number, size: number) => `${environment.apiUrl}/ordenes?page=${page}&size=${size}`
-
+  getOrdenes: (page: number, size: number) => `${environment.apiUrl}/ordenes?page=${page}&size=${size}`,
+  getClients: (page: number, size: number) => `${environment.apiUrl}/cliente?page=${page}&size=${size}`
 }

@@ -18,7 +18,7 @@ export class OrdenState {
     {content: [],
     totalElements: 0,
     size: 5,
-    number: 0,
+    pageNumber: 0,
     totalPages: 0,
 
 });

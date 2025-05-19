@@ -11,7 +11,7 @@ export interface IPagedOrders {
   content: ICreateOrden[];
   totalPages: number;
   totalElements: number;
-  number: number;
+  pageNumber: number;
   size: number;
   }
 
