@@ -33,21 +33,35 @@ export class DeleteOrdenUsecase {
         .deleteOrderById(id)
         .pipe(
           tap(() => {
-            const currentOrden = this._state.ordenes.ordenes.snapshot();
-            const updatedOrdenes = currentOrden.filter(
+            console.log('📌 Orden eliminada en backend:', id);
+
+            const currentState = this._state.ordenes.getAllOrdenes.snapshot();
+
+            const updatedOrders = currentState.content.filter(
               (orden) => orden.id !== id
             );
-            this._state.ordenes.ordenes.set(updatedOrdenes);
+            this._state.ordenes.getAllOrdenes.set({
+              ...currentState,
+              content: updatedOrders,
+            });
+            const createdOrdersState = this._state.ordenes.ordenes.snapshot();
+            const updatedCreatedOrders = createdOrdersState.filter(
+              (orden) => orden.id !== id
+            );
+            this._state.ordenes.ordenes.set(updatedCreatedOrders);
           })
         )
         .subscribe()
     );
   }
   selectOrden(id: number): void {
-    const currentOrden = this._state.ordenes.ordenes
-      .snapshot()
-      .find((ordenes) => ordenes.id === id);
+    const currentOrden = [
+      ...this._state.ordenes.ordenes.snapshot(),
+      ...this._state.ordenes.getAllOrdenes.snapshot().content,
+    ].find((orden) => orden.id === id);
+
     this._state.ordenes.currentOrdenes.set(currentOrden);
+    console.log('📌 Orden seleccionada:', currentOrden);
   }
   //#endregion
 

@@ -13,6 +13,11 @@ export class CreateOrdenUsecase {
   private readonly _state = inject(State);
   private subscriptions: Subscription;
 
+   //#region Observables
+   ordenes$(): Observable<ICreateOrden[]> {
+    return this._state.ordenes.ordenes.$();
+  }
+  //#endregion
   successMessage$(): Observable<string | null> {
     return this._state.ordenes.successMessage.$();
   }

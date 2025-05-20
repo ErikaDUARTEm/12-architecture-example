@@ -16,6 +16,12 @@ export class GetClientsUsecase {
   clients$(): Observable<IClient[]> {
     return this._state.clients.clients.$();
   }
+  currentPage$(): Observable<number>{
+    return this._state.clients.currentPage.$();
+  }
+  totalPages$(): Observable<number>{
+    return this._state.clients.totalPages.$();
+  }
   //#endregion
 
   //#region Public Methods
@@ -27,14 +33,17 @@ export class GetClientsUsecase {
     this.subscriptions.unsubscribe();
   }
 
-  execute(): void {
-    this.subscriptions.add(
-      this._service
-        .execute()
-        .pipe(tap((clients) => this._state.clients.clients.set(clients)))
-        .subscribe()
-    );
-  }
+ execute(page: number = 0, size: number = 5): void {
+  this.subscriptions.add(
+    this._service.execute(page, size).pipe(
+      tap((pagedClients) => {
+        this._state.clients.currentPage.set(pagedClients.pageNumber ?? 0);
+        this._state.clients.totalPages.set(pagedClients.totalPages ?? Math.ceil(pagedClients.totalElements / size));
+        this._state.clients.clients.set(pagedClients.content ?? []);
+      })
+    ).subscribe()
+  );
+}
   //#endregion
 
   //#region Private Methods

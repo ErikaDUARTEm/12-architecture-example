@@ -25,25 +25,24 @@ export class UpdateStatusOrdenUseCase {
   destroySubscriptions(): void {
     this.subscriptions.unsubscribe();
   }
+
   execute(orden: ICreateOrden): void {
-    this.subscriptions.add(
-      this._service
-        .updateStatusOrden(orden.id, orden.statusOrder)
-        .pipe(
-          tap((updatedOrden) => {
-            this._state.ordenes.statusOrden.set(orden.statusOrder);
-            this._state.ordenes.currentOrdenes.set(updatedOrden);
-            const ordenes = this._state.ordenes.ordenes.snapshot();
-            const index = ordenes.findIndex((o) => o.id === updatedOrden.id);
-            if (index !== -1) {
-              ordenes[index] = updatedOrden;
-            }
-            this._state.ordenes.ordenes.set(ordenes);
-          })
-        )
-        .subscribe()
-    );
-  }
+  this.subscriptions.add(
+    this._service.updateStatusOrden(orden.id, orden.statusOrder).pipe(
+      tap((updatedOrden) => {
+        this._state.ordenes.statusOrden.set(updatedOrden.statusOrder);
+        const currentState = this._state.ordenes.getAllOrdenes.snapshot();
+        const updatedOrders = currentState.content.map(o =>
+          o.id === updatedOrden.id ? updatedOrden : o
+        );
+        this._state.ordenes.getAllOrdenes.set({
+          ...currentState,
+          content: updatedOrders,
+        });
+      })
+    ).subscribe()
+  );
+}
   selectOrden(id: number): void {
     const currentOrden = this._state.ordenes.ordenes
       .snapshot()

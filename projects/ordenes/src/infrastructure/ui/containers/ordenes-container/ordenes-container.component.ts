@@ -4,11 +4,15 @@ import { GetOrdenesUsecase } from '../../../../application/useCase/get-ordenes.u
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { CreateOrdenUsecase } from '../../../../application/useCase/create-orden.usecase';
-import { ICreateOrden } from '../../../../domain/model/create-orden.model';
+import {
+  ICreateOrden,
+  IPagedOrders,
+} from '../../../../domain/model/create-orden.model';
 import { ModalComponent } from 'shared';
 import { UpdateOrdenUseCase } from '../../../../application/useCase/update-orden.usecase';
 import { DeleteOrdenUsecase } from '../../../../application/useCase/delete-orden.usecase';
 import { UpdateStatusOrdenUseCase } from '../../../../application/useCase/update-status-orden.usecase';
+import { OrdenState } from '../../../../domain/state/orden.state';
 
 @Component({
   selector: 'lib-ordenes-container',
@@ -21,12 +25,17 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
   private readonly _updateOrdenUseCase = inject(UpdateOrdenUseCase);
   private readonly _deleteOrdenUseCase = inject(DeleteOrdenUsecase);
   private readonly _updateStatusOrdenUseCase = inject(UpdateStatusOrdenUseCase);
+  private readonly ordenState = inject(OrdenState);
+
   public ordenes$: Observable<ICreateOrden[]>;
   public currentOrden$: Observable<ICreateOrden>;
   public statusOrden$: Observable<string>;
+  public getAllOrdens$: Observable<IPagedOrders>;
+  public currentPage$ = this._getUseCase.currentPage$();
+  public totalPages$ = this._getUseCase.totalPages$();
+
   ngOnInit(): void {
     this._getUseCase.initSubscriptions();
-    this._getUseCase.execute();
     this.ordenes$ = this._getUseCase.ordenes$();
     this._createOrdenUseCase.initSubscriptions();
     this._updateOrdenUseCase.initSubscriptions();
@@ -34,6 +43,8 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     this._deleteOrdenUseCase.initSubscriptions();
     this._updateStatusOrdenUseCase.initSubscriptions();
     this.statusOrden$ = this._updateStatusOrdenUseCase.statusOrden$();
+    this.getAllOrdens$ = this._getUseCase.ordenesCombinadas$();
+    this.handleGetAllOrdens(this.ordenState.store().currentPage.snapshot(), 5);
   }
   handlePatchOrden({
     orden,
@@ -42,6 +53,9 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     orden: ICreateOrden;
     modal: ModalComponent;
   }) {
+    // this._updateOrdenUseCase.clearCurrentOrden$();
+  console.log("📌 Estado de currentOrden antes de abrir modal:", this._updateOrdenUseCase.currentOrden$());
+
     const usecase = orden.id
       ? this._updateOrdenUseCase
       : this._createOrdenUseCase;
@@ -52,12 +66,6 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
   }
   deleteOrden(id: number) {
     this._deleteOrdenUseCase.execute(id);
-  }
-  ngOnDestroy(): void {
-    this._getUseCase.destroySubscriptions();
-    this._createOrdenUseCase.destroySubscriptions();
-    this._updateOrdenUseCase.destroySubscriptions();
-    this._deleteOrdenUseCase.destroySubscriptions();
   }
 
   getNextStatus(currentStatus: string): string {
@@ -75,5 +83,23 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     const nextStatus = this.getNextStatus(orden.statusOrder);
     const updatedOrden = { ...orden, statusOrder: nextStatus };
     this._updateStatusOrdenUseCase.execute(updatedOrden);
+  }
+  handleGetAllOrdens(page: number, size: number) {
+    this._getUseCase.execute(page, size);
+  }
+
+  changePage(increment: number): void {
+  const newPage = this.ordenState.store().currentPage.snapshot() + increment;
+
+  if (newPage >= 0 && newPage < this.ordenState.store().totalPages.snapshot()) {
+    this.ordenState.store().currentPage.set(newPage);
+    this.handleGetAllOrdens(newPage, 5);
+  }
+}
+  ngOnDestroy(): void {
+    this._getUseCase.destroySubscriptions();
+    this._createOrdenUseCase.destroySubscriptions();
+    this._updateOrdenUseCase.destroySubscriptions();
+    this._deleteOrdenUseCase.destroySubscriptions();
   }
 }

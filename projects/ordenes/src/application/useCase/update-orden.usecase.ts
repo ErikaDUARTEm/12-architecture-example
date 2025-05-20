@@ -17,7 +17,6 @@ export class UpdateOrdenUseCase {
   currentOrden$(): Observable<ICreateOrden> {
     return this._state.ordenes.currentOrdenes.$();
   }
-
   successMessage$(): Observable<string | null> {
     return this._state.ordenes.successMessage.$();
   }
@@ -34,12 +33,13 @@ export class UpdateOrdenUseCase {
       this._service
         .updateOrden(orden)
         .pipe(
-          tap((orden) => {
-            const ordenes = this._state.ordenes.ordenes.snapshot();
-            const newOrden = ordenes.map((o) =>
-              o.id === orden.id ? orden : o
-            );
-            this._state.ordenes.ordenes.set(newOrden);
+          tap((updatedOrden) => {
+            this._state.ordenes.getAllOrdenes.set({
+          ...this._state.ordenes.getAllOrdenes.snapshot(),
+          content: this._state.ordenes.getAllOrdenes
+            .snapshot()
+            .content.map(o => (o.id === updatedOrden.id ? updatedOrden : o)),
+        });
             this._state.ordenes.successMessage.set(
               '¡Orden actualizada con éxito!'
             );
@@ -55,11 +55,14 @@ export class UpdateOrdenUseCase {
     );
   }
   selectOrden(id: number): void {
-    const currentOrden = this._state.ordenes.ordenes
-      .snapshot()
-      .find((orden) => orden.id === id);
-    this._state.ordenes.currentOrdenes.set(currentOrden);
+    const currentOrden = this._state.ordenes.getAllOrdenes
+    .snapshot()
+    .content.find((orden) => orden.id === id);
+
+  this._state.ordenes.currentOrdenes.set(currentOrden);
+  console.log("📌 Orden seleccionada:", this._state.ordenes.currentOrdenes.snapshot())
   }
+
   //#endregion
 
   //#region Private Methods

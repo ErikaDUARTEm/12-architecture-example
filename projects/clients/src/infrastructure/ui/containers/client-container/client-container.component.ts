@@ -8,6 +8,7 @@ import { DeleteClientUsecase } from '../../../../application/clients/delete-clie
 import { CreateClientUsecase } from '../../../../application/clients/create-client.usecase';
 import { ModalComponent } from 'shared';
 import { UpdateClientUseCase } from '../../../../application/clients/update-client.usecase';
+import { ClientsState } from '../../../../domain/state/clients.state';
 
 @Component({
   selector: 'lib-client-container',
@@ -19,8 +20,12 @@ export class ClientContainerComponent implements OnInit, OnDestroy {
   private readonly _deleteClientUseCase = inject(DeleteClientUsecase);
   private readonly _createClientUseCase = inject(CreateClientUsecase);
   private readonly _updateClientUseCase = inject(UpdateClientUseCase);
+  private readonly clientState = inject(ClientsState);
   public clients$: Observable<IClient[]>;
   public currentClient$: Observable<IClient>;
+  public currentPage$ = this._getClientUseCase.currentPage$();
+  public totalPages$ = this._getClientUseCase.totalPages$();
+
 
   ngOnInit(): void {
     this._getClientUseCase.initSubscriptions();
@@ -58,5 +63,18 @@ export class ClientContainerComponent implements OnInit, OnDestroy {
   }
   handleSelectClient(id: number) {
     this._updateClientUseCase.selectClient(id);
+  }
+  changePage(increment: number): void {
+    const newPage = this.clientState.store().currentPage.snapshot() + increment;
+    if (
+      newPage >= 0 &&
+      newPage < this.clientState.store().totalPages.snapshot()
+    ) {
+      this.clientState.store().currentPage.set(newPage);
+      this.handleGetClients(newPage, 5);
+    }
+  }
+  handleGetClients(page: number, size: number) {
+    this._getClientUseCase.execute(page, size);
   }
 }

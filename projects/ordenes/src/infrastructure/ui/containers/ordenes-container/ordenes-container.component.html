@@ -5,5 +5,10 @@
   [currentOrden]="currentOrden$ | async"
   (onDeleteOrden)="deleteOrden($event)"
   (onStatusChange)="handleStatusChange($event)"
+  [getAllOrdenes]="getAllOrdens$ |async"
+  [currentpage]="currentPage$ | async"
+  [totalPages]="totalPages$ | async"
+  (onChangePage)="changePage($event)"
   ></lib-get-ordenes>
+
 

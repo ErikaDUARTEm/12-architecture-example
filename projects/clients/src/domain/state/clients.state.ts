@@ -14,6 +14,9 @@ export class ClientsState {
   private readonly clients$ = new BehaviorSubject<IClient[]>([]);
   private readonly currentclients$ = new BehaviorSubject<IClient>(null);
   private readonly successMessage$ = new BehaviorSubject<string | null>(null);
+  private readonly currentPage$ = new BehaviorSubject<number>(0);
+  private readonly totalPages$ = new BehaviorSubject<number>(0);
+
 
   //#endregion
 
@@ -21,7 +24,9 @@ export class ClientsState {
     return {
       clients: this._factory.state(this.clients$),
       currentClient: this._factory.state(this.currentclients$),
-      successMessage: this._factory.state(this.successMessage$)
+      successMessage: this._factory.state(this.successMessage$),
+      currentPage: this._factory.state(this.currentPage$),
+      totalPages: this._factory.state(this.totalPages$)
     }
   }
   setSuccessMessage(message: string | null) {
