@@ -1,5 +1,5 @@
 <section class="ordenes">
-  <lib-modal action="Crear Orden" #modal>
+  <lib-modal [action]="currentOrden()?.id ? 'Editar Orden' : 'Crear Orden'" #modal>
     <section class="ordenes__add" aria-label="Agregar/editar orden">
       @if(message()) {
       <div class="ordenes__mensaje-exito">
@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody role="rowgroup">
-        @for(orden of getAllOrdenes()?.content ; track orden.id){
+        @for(orden of getAllOrdenes()?.content; track orden.id){
         <tr role="row">
           <td>{{ orden.id }}</td>
           <td>{{ orden.priceTotal | currency}}</td>

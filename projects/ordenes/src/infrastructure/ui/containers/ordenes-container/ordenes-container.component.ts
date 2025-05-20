@@ -31,8 +31,8 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
   public currentOrden$: Observable<ICreateOrden>;
   public statusOrden$: Observable<string>;
   public getAllOrdens$: Observable<IPagedOrders>;
-  public currentPage$ = this.ordenState.store().currentPage.$();
-  public totalPages$ = this.ordenState.store().totalPages.$();
+  public currentPage$ = this._getUseCase.currentPage$();
+  public totalPages$ = this._getUseCase.totalPages$();
 
   ngOnInit(): void {
     this._getUseCase.initSubscriptions();
@@ -53,6 +53,9 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     orden: ICreateOrden;
     modal: ModalComponent;
   }) {
+    // this._updateOrdenUseCase.clearCurrentOrden$();
+  console.log("📌 Estado de currentOrden antes de abrir modal:", this._updateOrdenUseCase.currentOrden$());
+
     const usecase = orden.id
       ? this._updateOrdenUseCase
       : this._createOrdenUseCase;

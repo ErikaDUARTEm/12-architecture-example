@@ -25,6 +25,9 @@ export class GetClientsComponent {
   public onCreateClient = output<{ client: IClient; modal: ModalComponent }>();
   public onDeleteClient = output<number>();
   public onSelectClient = output<number>();
+  public currentPage = input<number>();
+  public totalPages = input<number>();
+  public onChangePage = output<number>();
 
   message(): string {
     return this.clientsState.store().successMessage.snapshot();
@@ -39,4 +42,8 @@ export class GetClientsComponent {
   handleSubmit(client: IClient) {
     this.onCreateClient.emit({ client, modal: this.modal() });
   }
+  emitChangePage(increment: number) {
+  this.onChangePage.emit(increment);
+}
+
 }

@@ -8,9 +8,14 @@ export const clientsRoutes: Routes = [
     component: GetClientsLayoutComponent,
     children: [
       {
-        path: '',
+        path: ':page/:size',
         component: ClientContainerComponent
-      }
+      },
+      {
+        path: '',
+        redirectTo: '0/5',
+        pathMatch: 'full',
+      },
     ]
   }
 ];

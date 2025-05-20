@@ -17,7 +17,9 @@ export class UpdateOrdenUseCase {
   currentOrden$(): Observable<ICreateOrden> {
     return this._state.ordenes.currentOrdenes.$();
   }
-
+  clearCurrentOrden$(): void {
+  this._state.ordenes.currentOrdenes.set(null);
+  }
   successMessage$(): Observable<string | null> {
     return this._state.ordenes.successMessage.$();
   }
@@ -63,6 +65,7 @@ export class UpdateOrdenUseCase {
   this._state.ordenes.currentOrdenes.set(currentOrden);
   console.log("📌 Orden seleccionada:", this._state.ordenes.currentOrdenes.snapshot())
   }
+
   //#endregion
 
   //#region Private Methods

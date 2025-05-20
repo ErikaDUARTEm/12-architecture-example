@@ -16,7 +16,6 @@ export const ordenesRoutes: Routes = [
         redirectTo: '0/5',
         pathMatch: 'full',
       },
-
     ],
   },
 ];

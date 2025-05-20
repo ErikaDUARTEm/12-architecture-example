@@ -20,10 +20,13 @@ export class GetOrdenesUsecase {
     return this._state.ordenes.ordenes.$();
   }
   getAllordenes$(): Observable<IPagedOrders> {
-    return this._state.ordenes.getAllOrdenes.$();
+   return this._state.ordenes.getAllOrdenes.$();
   }
   currentPage$(): Observable<number>{
     return this._state.ordenes.currentPage.$();
+  }
+  totalPages$(): Observable<number>{
+    return this._state.ordenes.totalPages.$();
   }
   ordenesCombinadas$(): Observable<IPagedOrders> {
     return combineLatest([this.getAllordenes$(), this.ordenes$()]).pipe(

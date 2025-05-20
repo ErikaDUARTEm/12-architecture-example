@@ -1,5 +1,5 @@
 <section class="clients">
-  <lib-modal action="Crear Cliente" #modal>
+  <lib-modal [action]="currentClient()?.id ? 'Editar Cliente' : 'Crear Cliente'" #modal>
     <section class="clients__clients-add" aria-label="Agregar/editar cliente">
       @if(message()) {
       <div class="clients__mensaje-exito">
@@ -50,8 +50,20 @@
           </td>
         </tr>
         }
-
       </tbody>
     </table>
+    <div class="clients__pagination">
+  <button class="clients__pagination__button clients__pagination__button--previous"
+    (click)="emitChangePage(-1)"
+    [disabled]="currentPage() === 0">
+    Anterior
+  </button>
+  <span class="clients__pagination__text">Página {{ currentPage() + 1 }} de {{ totalPages() }}</span>
+  <button class="clients__pagination__button clients__pagination__button--next"
+    (click)="emitChangePage(1)"
+    [disabled]="currentPage() >= totalPages() - 1">
+    Siguiente
+  </button>
+</div>
   </section>
 </section>
