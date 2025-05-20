@@ -17,9 +17,6 @@ export class UpdateOrdenUseCase {
   currentOrden$(): Observable<ICreateOrden> {
     return this._state.ordenes.currentOrdenes.$();
   }
-  clearCurrentOrden$(): void {
-  this._state.ordenes.currentOrdenes.set(null);
-  }
   successMessage$(): Observable<string | null> {
     return this._state.ordenes.successMessage.$();
   }
