@@ -19,6 +19,9 @@ export class GetDishesComponent {
   public onSelectDish = output<number>();
   public dishEdit = input<IDish>();
   public onDeleteDisH = output<number>();
+  public currentPage = input<number>();
+  public totalPages = input<number>();
+  public onPageChange = output<number>();
 
   message(): string {
     return this.menuState.store().successMessage.snapshot();
@@ -33,4 +36,13 @@ export class GetDishesComponent {
   handleSubmit(dish: IDish) {
     this.onCreateDish.emit({ dish, modal: this.modal() });
   }
+  nextPage() {
+    this.onPageChange.emit(this.currentPage() + 1);
+  }
+
+  previousPage() {
+    this.onPageChange.emit(this.currentPage() - 1);
+  }
+
+
 }

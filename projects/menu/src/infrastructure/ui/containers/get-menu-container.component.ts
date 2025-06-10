@@ -24,11 +24,12 @@ export class GetMenuContainerComponent implements OnInit, OnDestroy {
   private readonly _addDishUseCase = inject(AddDishUsecase);
   private readonly _updateDishUseCase = inject(UpdateDishUseCase);
   private readonly _deleteDishUseCase = inject(DeleteDishUseCase);
-  private readonly menuState = inject(MenuState);
   public restaurant$: Observable<IRestaurant>;
   public menu$: Observable<IAddMenuResponse>;
   public dishes$: Observable<IDish[]>;
   public currentDish$: Observable<IDish>;
+  public currentPage$: Observable<number>;
+  public totalPages$: Observable<number>;
 
   ngOnInit(): void {
     this._getMenuUseCase.initSubscriptions();
@@ -38,12 +39,15 @@ export class GetMenuContainerComponent implements OnInit, OnDestroy {
     this.getMenu();
     this.restaurant$ = this._getMenuUseCase.restaurant$();
     this.menu$ = this._getMenuUseCase.menu$();
-    this.dishes$ = this._addDishUseCase.currentDishes$();
+    this.dishes$ = this._getMenuUseCase.dishes$();
     this.currentDish$ = this._updateDishUseCase.currentDish$();
+    this.currentPage$ = this._getMenuUseCase.currentPage$();
+    this.totalPages$ = this._getMenuUseCase.totalPages$();
   }
   getMenu(): void {
     this._getMenuUseCase.execute(1);
   }
+
   handlePatchMenu({ dish, modal }: { dish: IDish; modal: ModalComponent }) {
     const usecase = dish.id ? this._updateDishUseCase : this._addDishUseCase;
     usecase.execute(dish, modal);
@@ -53,6 +57,10 @@ export class GetMenuContainerComponent implements OnInit, OnDestroy {
   }
   handleDeleteDish(id: number) {
     this._deleteDishUseCase.execute(id);
+  }
+  changePage(page: number): void {
+      console.log("Cambiando a página:", page);
+    this._getMenuUseCase.changePage(page);
   }
   ngOnDestroy(): void {
     this._getMenuUseCase.destroySubscriptions();

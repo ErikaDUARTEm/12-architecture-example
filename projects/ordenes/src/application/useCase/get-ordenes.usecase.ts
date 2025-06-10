@@ -64,7 +64,7 @@ export class GetOrdenesUsecase {
           totalPages: ordenes.totalPages ?? Math.ceil(ordenes.totalElements / size)
         });
       })
-        )
+        ) 
         .subscribe()
     );
   }
