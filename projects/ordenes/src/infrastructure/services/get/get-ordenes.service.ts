@@ -11,7 +11,7 @@ export class GetOrdenesService {
   private http = inject(HttpClient);
 
   execute(page: number = 0, size: number = 5): Observable<IPagedOrders> {
-        return this.http.get<IPagedOrders>(urlResources.getOrdenes(page, size));
+        return this.http.get<IPagedOrders>(urlResources.paginatedResource("ordenes", page, size));
   }
 
 }

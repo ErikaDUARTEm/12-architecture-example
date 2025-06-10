@@ -75,4 +75,52 @@
       color: gray;
     }
   }
+  &__pagination {
+    &__button {
+      color: variables.$color-background;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: variables.$font-weight-secondary;
+      transition: background-color 0.3s ease;
+      &:hover {
+        background: variables.$color-secondary;
+      }
+      &:disabled {
+        background-color: #ccc;
+        color: #aaa;
+        cursor: not-allowed;
+      }
+    }
+    &__button--previous {
+      background: variables.$color-background-button;
+      border: none;
+
+      &:hover {
+        background: variables.$color-secondary;
+      }
+      &:active {
+        background: variables.$color-background-button;
+      }
+    }
+
+    &__button--next {
+      background: variables.$color-background-button;
+      border: none;
+
+      &:hover {
+        background: variables.$color-secondary;
+      }
+      &:active {
+        background: variables.$color-secondary;
+      }
+    }
+
+    &__text {
+      color: variables.$color-secondary;
+      margin: 0 10px;
+      font-weight: variables.$font-weight-secondary;
+    }
+  }
 }

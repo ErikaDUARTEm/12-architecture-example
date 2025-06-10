@@ -5,4 +5,8 @@
 (onSelectDish)="handleSelectDish($event)"
 [dishEdit]="currentDish$ | async"
 (onDeleteDisH)="handleDeleteDish($event)"
+[currentPage]="currentPage$ | async"
+[totalPages]="totalPages$ |async"
+(onPageChange)="changePage($event)"
+
 ></lib-get-dishes>

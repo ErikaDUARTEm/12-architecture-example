@@ -53,8 +53,6 @@ export class OrdenesContainerComponent implements OnInit, OnDestroy {
     orden: ICreateOrden;
     modal: ModalComponent;
   }) {
-    // this._updateOrdenUseCase.clearCurrentOrden$();
-  console.log("📌 Estado de currentOrden antes de abrir modal:", this._updateOrdenUseCase.currentOrden$());
 
     const usecase = orden.id
       ? this._updateOrdenUseCase

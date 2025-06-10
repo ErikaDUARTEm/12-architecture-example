@@ -12,7 +12,7 @@ export class GetMenuService {
 
   execute(restaurantId: number): Observable<IRestaurant> {
     return this.http.get<IRestaurant>(
-      urlResources.restautantOperationsById(restaurantId.toString())
+      urlResources.restaurantOperationsById(restaurantId.toString())
     );
   }
 }

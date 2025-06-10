@@ -16,6 +16,8 @@ export class MenuState {
   private readonly currentDishes$ = new BehaviorSubject<IDish[]>([]);
   private readonly currentDish$ = new BehaviorSubject<IDish>(null);
   private readonly successMessage$ = new BehaviorSubject<string>(null);
+  private readonly currentPage$ = new BehaviorSubject<number>(1);
+  private readonly itemsPerPage$ = new BehaviorSubject<number>(5);
   //#endregion
 
   store() {
@@ -26,6 +28,9 @@ export class MenuState {
       currentDishes: this._factory.state(this.currentDishes$),
       currentDish$: this._factory.state(this.currentDish$),
       successMessage: this._factory.state(this.successMessage$),
+      currentPage: this._factory.state(this.currentPage$),
+      itemsPerPage: this._factory.state(this.itemsPerPage$),
+
     };
   }
   setSuccessMessage(message: string | null) {

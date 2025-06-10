@@ -12,7 +12,7 @@
   </lib-modal>
   <section class="menu__content" role="main">
     <h1>Menú del Restaurante</h1>
-    <p>Descripción: {{menu().description}}</p>
+    <p>Descripción: {{menu()?.description}}</p>
     <table class="menu__table">
       <thead class="menu__head" role="rowgroup">
         <tr>
@@ -51,4 +51,9 @@
         }
       </tbody>
     </table>
+    <div class="menu__pagination">
+      <button class="menu__pagination__button menu__pagination__button--previous" (click)="previousPage()"  [disabled]="currentPage() <= 1">Anterior</button>
+      <span class="menu__pagination__text">Página {{ currentPage()}} de {{ totalPages()}}</span>
+      <button class="menu__pagination__button menu__pagination__button--next"(click)="nextPage()" [disabled]="currentPage() > totalPages() - 1">Siguiente</button>
+    </div>
   </section>

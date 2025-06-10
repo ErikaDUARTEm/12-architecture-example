@@ -11,6 +11,6 @@ export class GetClientsService {
   private http = inject(HttpClient);
 
   execute(page: number = 0, size: number = 5): Observable<IPagedClients> {
-    return this.http.get<IPagedClients>(urlResources.getClients(page, size));
+    return this.http.get<IPagedClients>(urlResources.paginatedResource("cliente", page, size));
   }
 }
