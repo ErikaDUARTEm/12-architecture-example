@@ -18,6 +18,7 @@ export class MenuState {
   private readonly successMessage$ = new BehaviorSubject<string>(null);
   private readonly currentPage$ = new BehaviorSubject<number>(1);
   private readonly itemsPerPage$ = new BehaviorSubject<number>(5);
+  private readonly dishFormReset$ = new BehaviorSubject<boolean>(false);
   //#endregion
 
   store() {
@@ -26,14 +27,17 @@ export class MenuState {
       menu: this._factory.state(this.menu$),
       dishes: this._factory.state(this.dishes$),
       currentDishes: this._factory.state(this.currentDishes$),
-      currentDish$: this._factory.state(this.currentDish$),
+      currentDish: this._factory.state(this.currentDish$),
       successMessage: this._factory.state(this.successMessage$),
       currentPage: this._factory.state(this.currentPage$),
       itemsPerPage: this._factory.state(this.itemsPerPage$),
-
+      dishFormReset: this._factory.state(this.dishFormReset$),
     };
   }
   setSuccessMessage(message: string | null) {
     this.successMessage$.next(message);
+  }
+  triggerFormReset(value: boolean) {
+    this.dishFormReset$.next(value);
   }
 }

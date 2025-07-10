@@ -7,7 +7,7 @@
         {{ message()}}
       </div>
       }
-      <lib-add-dish [dish]="dishEdit()" (onSubmit)="handleSubmit($event)"></lib-add-dish>
+      <lib-add-dish [dish]="dishEdit()" (onSubmit)="handleSubmit($event)" [resetFormTrigger]="resetFormTrigger()"></lib-add-dish>
     </section>
   </lib-modal>
   <section class="menu__content" role="main">

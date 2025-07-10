@@ -1,4 +1,4 @@
-import { Component, inject, Input, output } from '@angular/core';
+import { Component, effect, inject, input, Input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IDish } from '../../../domain/model/menu.model';
 
@@ -11,9 +11,16 @@ import { IDish } from '../../../domain/model/menu.model';
 export class AddDishComponent {
   private formBuilder = inject(FormBuilder);
   public onSubmit = output<IDish>();
+  public resetFormTrigger = input<boolean>();
 
-  @Input()
-  set dish(value: IDish) {
+  public dishForm = this.formBuilder.group({
+    id: [null],
+    name: ['', [Validators.required]],
+    price: [0, [Validators.required]],
+    menuRestaurantId: [1, Validators.required],
+  });
+
+  @Input() set dish(value: IDish) {
     if (value && value.id) {
       this.dishForm.patchValue(value);
     } else {
@@ -25,15 +32,21 @@ export class AddDishComponent {
       });
     }
   }
-  public dishForm = this.formBuilder.group({
-    id: [null],
-    name: ['', [Validators.required]],
-    price: [0, [Validators.required]],
-    menuRestaurantId: [1, Validators.required],
-  });
 
   submit(): void {
     if (!this.dishForm.valid) return;
     this.onSubmit.emit(this.dishForm.getRawValue());
+  }
+  constructor() {
+    effect(() => {
+      if (this.resetFormTrigger()) {
+        this.dishForm.reset({
+          id: null,
+          name: '',
+          price: 0,
+          menuRestaurantId: 1,
+        });
+      }
+    });
   }
 }

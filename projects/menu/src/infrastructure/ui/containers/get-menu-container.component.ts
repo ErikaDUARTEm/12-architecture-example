@@ -30,6 +30,7 @@ export class GetMenuContainerComponent implements OnInit, OnDestroy {
   public currentDish$: Observable<IDish>;
   public currentPage$: Observable<number>;
   public totalPages$: Observable<number>;
+  public dishFormReset$: Observable<boolean>;
 
   ngOnInit(): void {
     this._getMenuUseCase.initSubscriptions();
@@ -43,6 +44,7 @@ export class GetMenuContainerComponent implements OnInit, OnDestroy {
     this.currentDish$ = this._updateDishUseCase.currentDish$();
     this.currentPage$ = this._getMenuUseCase.currentPage$();
     this.totalPages$ = this._getMenuUseCase.totalPages$();
+    this.dishFormReset$ = this._addDishUseCase.dishFormReset$();
   }
   getMenu(): void {
     this._getMenuUseCase.execute(1);
@@ -59,7 +61,6 @@ export class GetMenuContainerComponent implements OnInit, OnDestroy {
     this._deleteDishUseCase.execute(id);
   }
   changePage(page: number): void {
-      console.log("Cambiando a página:", page);
     this._getMenuUseCase.changePage(page);
   }
   ngOnDestroy(): void {
