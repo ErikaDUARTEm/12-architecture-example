@@ -8,5 +8,5 @@
 [currentPage]="currentPage$ | async"
 [totalPages]="totalPages$ |async"
 (onPageChange)="changePage($event)"
-
+[resetFormTrigger]="dishFormReset$ | async"
 ></lib-get-dishes>

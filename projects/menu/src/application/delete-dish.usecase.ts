@@ -14,7 +14,7 @@ export class DeleteDishUseCase {
 
   //#region Observables
   currentDish$(): Observable<IDish> {
-    return this._state.menu.currentDish$.$();
+    return this._state.menu.currentDish.$();
   }
 
   successMessage$(): Observable<string | null> {
@@ -48,7 +48,7 @@ export class DeleteDishUseCase {
     const currentDish = this._state.menu.dishes
       .snapshot()
       .find((dish) => dish.id === id);
-    this._state.menu.currentDish$.set(currentDish);
+    this._state.menu.currentDish.set(currentDish);
   }
   //#endregion
 

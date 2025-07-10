@@ -22,6 +22,7 @@ export class GetDishesComponent {
   public currentPage = input<number>();
   public totalPages = input<number>();
   public onPageChange = output<number>();
+  public resetFormTrigger = input<boolean>();
 
   message(): string {
     return this.menuState.store().successMessage.snapshot();
@@ -43,6 +44,5 @@ export class GetDishesComponent {
   previousPage() {
     this.onPageChange.emit(this.currentPage() - 1);
   }
-
 
 }
